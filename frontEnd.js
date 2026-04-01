@@ -81,6 +81,21 @@ function submitQuiz() {
     const selected = document.querySelector(
       `input[name="question${index}"]:checked`
     );
+
+    const options = document.querySelectorAll(`input[name="question${index}"]`);
+    options.forEach(opt => {
+      const label = opt.parentElement;
+      label.classList.remove("correct", "wrong"); // reset styles
+
+      if (opt.value === ans) {
+        label.classList.add("correct"); // mark correct answer
+      }
+
+      if (selected && opt === selected && opt.value !== ans) {
+        label.classList.add("wrong"); // mark wrong selection
+      }
+    });
+
     if (selected && selected.value === ans) {
       score++;
     }

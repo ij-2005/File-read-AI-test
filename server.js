@@ -46,13 +46,42 @@ app.post("/api/upload", upload.single("pdf"), async (req, res) => {
     // Send file directly to Gemini
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent([
-      { text: "Generate me 5 questions from the pdf:" },
+      { text: `Read the PDF and generate 5 multiple-choice questions. 
+    Return ONLY raw JSON, no code fences, no markdown, no explanations.
+    Format:
+    {
+      "quiz": [
+        {
+          "question": "string",
+          "options": ["string", "string", "string", "string"],
+          "answer": "string"
+        }
+      ]
+    }`
+     },
       pdfFile,
     ]);
 
-    const aiText = (await result.response).text();
+    
 
-    res.json({ reply: aiText });
+    const aiText = (await result.response).text();
+    console.log("Gemini raw reply:", aiText);
+    
+    const cleaned = aiText
+    .replace(/```json/g, "")
+    .replace(/```/g, "")
+    .trim();
+
+    let quizData;
+    try {
+    quizData = JSON.parse(cleaned);
+    } catch (err) {
+    console.error("Failed to parse AI JSON:", err);
+    return res.status(500).json({ reply: aiText });
+    }
+
+    res.json({ reply: "Quiz generated successfully!", quiz: quizData.quiz });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ reply: "Error processing PDF or talking to AI" });

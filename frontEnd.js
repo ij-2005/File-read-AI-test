@@ -25,6 +25,7 @@ async function handleFile() {
     });
 
     const data = await res.json();
+    console.log("Server response: ", data)
 
     responseBox.textContent = data.reply;
 

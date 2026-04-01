@@ -2,7 +2,6 @@ import dotenv from "dotenv";
 import multer from "multer";
 import express from "express";
 import cors from "cors";
-import fs from "fs";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 dotenv.config();

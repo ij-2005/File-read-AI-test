@@ -5,6 +5,7 @@ async function handleFile() {
   const quizContainer = document.getElementById("quizContainer");
   const quizResult = document.getElementById("quizResult");
   const questionCount = document.getElementById("questionCount").value;
+  const difficulty = document.getElementById("difficulty").value;
 
   if (!fileInput.files.length) {
     alert("Please select a PDF file first.");
@@ -20,6 +21,7 @@ async function handleFile() {
     const formData = new FormData();
     formData.append("pdf", file);
     formData.append("questionCount", questionCount);
+    formData.append("difficulty", difficulty);
 
     const res = await fetch("http://localhost:3000/api/upload", {
       method: "POST",

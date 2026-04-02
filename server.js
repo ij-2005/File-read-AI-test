@@ -42,12 +42,13 @@ app.post("/api/upload", upload.single("pdf"), async (req, res) => {
       },
     };
 
-    const questionCount = req.body.questionCount || 5;
+    const questionCount = req.body.questionCount; //question choice
+    const difficulty = req.body.difficulty; // 
 
     // Send file directly to Gemini
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent([
-      { text: `Read the PDF and generate ${questionCount} multiple-choice questions. 
+      { text: `Read the PDF and generate ${questionCount} - ${difficulty} difficulty multiple-choice questions. 
     Return ONLY raw JSON, no code fences, no markdown, no explanations.
     Format:
     {
@@ -66,6 +67,8 @@ app.post("/api/upload", upload.single("pdf"), async (req, res) => {
     
 
     const aiText = (await result.response).text();
+    
+    console.log(`Current difficulty read: ${difficulty}`);
     console.log(`Recieved question count: ${questionCount}`);
     console.log("Gemini raw reply:", aiText);
     

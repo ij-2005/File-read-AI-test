@@ -85,10 +85,10 @@ app.post("/api/upload", upload.single("pdf"), async (req, res) => {
     return res.status(500).json({ reply: aiText });
     }
 
-    res.json({ reply: "Quiz generated successfully!", quiz: quizData.quiz });
+    res.json({ reply: "It worked bud!", quiz: quizData.quiz });
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ reply: "Error processing PDF or talking to AI" });
+    res.status(500).json({ reply: "Error processing PDF or talking to AI idk fr" });
   }
 });

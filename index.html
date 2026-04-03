@@ -4,131 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI File Reader Test</title>
+  <link rel="stylesheet" href="styling.css">
   <script src="frontEnd.js"></script>
-  <style>
-   body {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  padding: 40px;
-  background: #111; /* dark background */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  color: #eee; /* light text */
-}
-
-h1 {
-  margin-bottom: 5px;
-  font-weight: 600;
-  color: #fff;
-}
-
-h3 {
-  margin-top: 0;
-  color: #aaa;
-  font-weight: normal;
-}
-
-.container {
-  background: #1c1c1c;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
-
-input[type="file"] {
-  margin-top: 15px;
-  padding: 8px;
-  border: 1px solid #444;
-  border-radius: 6px;
-  background: #222;
-  color: #eee;
-  cursor: pointer;
-}
-
-input[type="file"]::file-selector-button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  background: #444;
-  color: #eee;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-input[type="file"]::file-selector-button:hover {
-  background: #666;
-}
-
-button {
-  margin-top: 15px;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 6px;
-  background: #333;
-  color: #eee;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background: #555;
-  transform: translateY(-2px);
-}
-
-.response-box {
-  margin-top: 20px;
-  padding: 15px;
-  min-height: 100px;
-  border: 1px solid #444;
-  border-radius: 8px;
-  background: #222;
-  color: #ddd;
-  text-align: left;
-  white-space: pre-wrap;
-}
-
-.quiz-section {
-  margin-top: 30px;
-  padding: 20px;
-  border: 1px solid #444;
-  border-radius: 10px;
-  background: #1a1a1a;
-  display: none; /* hidden until file is uploaded */
-  text-align: left;
-}
-
-.quiz-question {
-  margin-bottom: 20px;
-  color: #eee;
-}
-
-#quizResult {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #fff;
-}
-
-.correct {
-  background-color: #1e3d1e; /* dark green background */
-  color: #9fdf9f;           /* light green text */
-  border-radius: 4px;
-  padding: 2px 6px;
-}
-
-.wrong {
-  background-color: #3d1e1e; /* dark red background */
-  color: #ff9999;            /* light red text */
-  border-radius: 4px;
-  padding: 2px 6px;
-}
-
-
-
-  </style>
 </head>
 <body>
 
@@ -136,28 +13,31 @@ button:hover {
     <h1>AI File Reader Test</h1>
     <h3>By ij2005</h3>
 
-    <div class="question-count">
-      <label for="questionCount">Number of Questions:</label>
-      <select id="questionCount">
-        <option value="5">5</option>
-        <option value="10">10</option>
-      </select>
-    </div>
-    <br>
-
-    <div class="difficulty-choice">
-    <label for="difficulty">Difficulty:</label>
-    <select id="difficulty">
-      <option value="easy">Easy</option>
-      <option value="medium">Medium</option>
-      <option value="hard">Hard</option>
-    </select>
+    <!-- Question count segmented control -->
+<div class="question-count" role="group" aria-label="Number of Questions">
+  <div class="segmented" role="radiogroup" aria-label="Number of Questions">
+    <button type="button" class="segmented-item" data-value="5" aria-pressed="true">5</button>
+    <button type="button" class="segmented-item" data-value="10" aria-pressed="false">10</button>
   </div>
+  <input type="hidden" id="questionCount" value="5">
+</div>
+
+<!-- Difficulty segmented control -->
+<div class="difficulty-choice" role="group" aria-label="Difficulty">
+  <div class="segmented" role="radiogroup" aria-label="Difficulty">
+    <button type="button" class="segmented-item" data-value="easy" aria-pressed="true">Easy</button>
+    <button type="button" class="segmented-item" data-value="medium" aria-pressed="false">Medium</button>
+    <button type="button" class="segmented-item" data-value="hard" aria-pressed="false">Hard</button>
+  </div>
+  <input type="hidden" id="difficulty" value="easy">
+</div>
   <br>
 
     <div class="file-upload">
     <input type="file" id="fileInput" accept=".pdf">
-    </div>
+    <label for="fileInput">Choose File</label>
+    <div class="file-name" id="fileName">No file chosen</div>
+  </div>
     <br>
     <button onclick="handleFile()">Upload & Process</button>
 
@@ -172,6 +52,38 @@ button:hover {
       <div id="quizResult" style="margin-top:15px; font-weight:bold;"></div>
     </div>
   </div>
+
+  <script>
+  (function () {
+    // Attach behavior to all segmented controls
+    document.querySelectorAll('.segmented').forEach(function(group){
+      group.addEventListener('click', function(e){
+        const btn = e.target.closest('.segmented-item');
+        if (!btn) return;
+        // mark all siblings as unpressed
+        group.querySelectorAll('.segmented-item').forEach(function(s){
+          s.setAttribute('aria-pressed', 'false');
+        });
+        // set clicked as pressed
+        btn.setAttribute('aria-pressed', 'true');
+        // update the hidden input in the same parent container
+        const parent = group.parentElement;
+        const hidden = parent.querySelector('input[type="hidden"]');
+        if (hidden) hidden.value = btn.getAttribute('data-value');
+      });
+
+    });
+  })();
+</script>
+<script>
+  
+document.getElementById("fileInput").addEventListener("change", function(){
+  const fileName = this.files.length ? this.files[0].name : "No file chosen";
+  document.getElementById("fileName").textContent = `Current file using: ${fileName}`;
+});
+
+
+</script>
 
 </body>
 </html>

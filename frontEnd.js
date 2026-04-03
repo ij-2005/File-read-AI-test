@@ -29,7 +29,6 @@ async function handleFile() {
     });
 
     const data = await res.json();
-    console.log("Server response: ", data)
 
     responseBox.textContent = data.reply;
 
@@ -109,3 +108,5 @@ function submitQuiz() {
 
   quizResult.textContent = `You scored ${score} out of ${answers.length}`;
 }
+
+

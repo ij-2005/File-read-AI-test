@@ -36,7 +36,12 @@ export default async function handler(req, res) {
       },
     };
 
-    const { questionCount, difficulty } = req.body;
+    const { questionCount, difficulty, answer } = req.body;
+    
+
+    if (answer !== process.env.DOG_PASSWORD){
+      return res.status(403).json({ reply: "Wrong name!, sno ka ?!"});
+    }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });

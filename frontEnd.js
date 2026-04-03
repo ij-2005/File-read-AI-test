@@ -17,76 +17,74 @@ async function handleFile() {
   quizContainer.innerHTML = "";
   quizResult.textContent = "";
 
-  const answer = prompt("ano muna type ko -ivan (no caps no space): ");
+  const answer = prompt("what name of my shitzu (no caps no space): ");
+  
 
-  if(answer == "morena"){
+  
+  try {
 
-    alert("wow.");
-    try {
+  responseBox.textContent = "reading pa si ei..";
+  const formData = new FormData();
+  formData.append("pdf", file);
+  formData.append("questionCount", questionCount);
+  formData.append("difficulty", difficulty);
+  formData.append("answer", answer);
 
-    responseBox.textContent = "reading pa si ei..";
-    const formData = new FormData();
-    formData.append("pdf", file);
-    formData.append("questionCount", questionCount);
-    formData.append("difficulty", difficulty);
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData
+  });
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData
-    });
+  
 
-    
+  const data = await res.json();
 
-    const data = await res.json();
+  responseBox.textContent = data.reply;
 
-    responseBox.textContent = data.reply;
+  
 
-    
+  // Show quiz section
+  quizSection.style.display = "block";
 
-    // Show quiz section
-    quizSection.style.display = "block";
+  // Render multiple choice quiz if provided
+  if (data.quiz && Array.isArray(data.quiz)) {
+    data.quiz.forEach((q, index) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "quiz-question";
 
-    // Render multiple choice quiz if provided
-    if (data.quiz && Array.isArray(data.quiz)) {
-      data.quiz.forEach((q, index) => {
-        const qDiv = document.createElement("div");
-        qDiv.className = "quiz-question";
+      const qText = document.createElement("p");
+      qText.textContent = `${index + 1}. ${q.question}`;
+      qDiv.appendChild(qText);
 
-        const qText = document.createElement("p");
-        qText.textContent = `${index + 1}. ${q.question}`;
-        qDiv.appendChild(qText);
+      q.options.forEach(opt => {
+        const label = document.createElement("label");
+        label.style.display = "block";
 
-        q.options.forEach(opt => {
-          const label = document.createElement("label");
-          label.style.display = "block";
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `question${index}`;
+        radio.value = opt;
 
-          const radio = document.createElement("input");
-          radio.type = "radio";
-          radio.name = `question${index}`;
-          radio.value = opt;
-
-          label.appendChild(radio);
-          label.appendChild(document.createTextNode(" " + opt));
-          qDiv.appendChild(label);
-        });
-
-        quizContainer.appendChild(qDiv);
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(" " + opt));
+        qDiv.appendChild(label);
       });
 
-      // Store answers for scoring
-      quizContainer.dataset.answers = JSON.stringify(
-        data.quiz.map(q => q.answer)
-      );
-    }
+      quizContainer.appendChild(qDiv);
+    });
 
-  } catch (err) {
-    console.error(err);
-    responseBox.textContent = "May mali bossing.";
+    // Store answers for scoring
+    quizContainer.dataset.answers = JSON.stringify(
+      data.quiz.map(q => q.answer)
+    );
   }
 
-  }else{
-    alert("choices: morena, mestiza, chinita");
-  }
+} catch (err) {
+  console.error(err);
+  responseBox.textContent = "Upload and processing failed sadly.";
+}
+
+  
   
 }
 

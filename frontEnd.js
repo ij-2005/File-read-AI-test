@@ -78,7 +78,7 @@ async function handleFile() {
       data.quiz.map(q => q.answer)
     );
 
-    console.log(`Tokens used → Prompt: ${data.tokens.prompt}, Response: ${data.tokens.response}, Total: ${data.tokens.total}`);
+    console.log(`Gemini responded!: Tokens used → Prompt: ${data.tokens.prompt}, Response: ${data.tokens.response}, Total: ${data.tokens.total}`);
   }
 
 } catch (err) {

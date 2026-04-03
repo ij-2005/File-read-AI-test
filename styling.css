@@ -24,6 +24,7 @@ body{
   align-items:flex-start;
   justify-content:center;
   padding:48px;
+  overflow-x: hidden;
 }
 
 /* Segmented control (inline options) */

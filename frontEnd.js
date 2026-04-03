@@ -7,6 +7,8 @@ async function handleFile() {
   const questionCount = document.getElementById("questionCount").value;
   const difficulty = document.getElementById("difficulty").value;
 
+  quizSection.style.display = "none";
+
   if (!fileInput.files.length) {
     alert("Please select a PDF file first.");
     return;

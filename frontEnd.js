@@ -13,11 +13,16 @@ async function handleFile() {
   }
 
   const file = fileInput.files[0];
-  responseBox.textContent = "Uploading and processing...";
+  responseBox.textContent = "File receieved.";
   quizContainer.innerHTML = "";
   quizResult.textContent = "";
 
-  try {
+  const answer = prompt("ano muna type ko -ivan (no caps no space): ");
+
+  if(answer == "morena"){
+
+    alert("wow.");
+    try {
     const formData = new FormData();
     formData.append("pdf", file);
     formData.append("questionCount", questionCount);
@@ -27,6 +32,8 @@ async function handleFile() {
       method: "POST",
       body: formData
     });
+
+    responseBox.textContent = "Proessing lang.";
 
     const data = await res.json();
 
@@ -72,8 +79,13 @@ async function handleFile() {
 
   } catch (err) {
     console.error(err);
-    responseBox.textContent = "Error uploading file.";
+    responseBox.textContent = "May mali bossing.";
   }
+
+  }else{
+    alert("choices: morena, mestiza, chinita");
+  }
+  
 }
 
 function submitQuiz() {

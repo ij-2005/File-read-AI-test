@@ -23,6 +23,8 @@ async function handleFile() {
 
     alert("wow.");
     try {
+
+    responseBox.textContent = "reading pa si ei..";
     const formData = new FormData();
     formData.append("pdf", file);
     formData.append("questionCount", questionCount);
@@ -33,7 +35,7 @@ async function handleFile() {
       body: formData
     });
 
-    responseBox.textContent = "Proessing lang.";
+    
 
     const data = await res.json();
 

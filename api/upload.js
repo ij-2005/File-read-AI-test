@@ -70,7 +70,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ reply: aiText });
     }
 
-    res.json({ reply: "It worked bud!", quiz: quizData.quiz });
+    res.json({ reply: "paldo!", quiz: quizData.quiz });
   } catch (error) {
     console.error(error);
     res.status(500).json({ reply: "Error processing PDF or talking to AI" });

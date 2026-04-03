@@ -18,7 +18,7 @@ body{
   font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   margin:0;
   min-height:100%;
-  background: linear-gradient(180deg,#070708 0%, #0b0c0d 100%);
+  background: rgb(0, 0, 0);
   color:var(--text);
   display:flex;
   align-items:flex-start;
@@ -97,7 +97,7 @@ body{
   border-radius:var(--radius);
   padding:28px;
   border:1px solid var(--border);
-  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+  box-shadow: 0 10px 30px rgba(58, 58, 58, 0.242);
 }
 
 /* Header */
@@ -204,6 +204,16 @@ button:hover{ transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.6
 .correct{ background: rgba(16,185,129,0.12); color:#10b981; padding:4px 6px; border-radius:6px; }
 .wrong{ background: rgba(239,68,68,0.08); color:#ef4444; padding:4px 6px; border-radius:6px; }
 
+
+a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+a:hover{
+  color: #bd0097;        /* changes color on hover */
+}
 /* Responsive */
 @media (max-width:640px){
   body{ padding:20px; }

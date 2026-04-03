@@ -81,7 +81,8 @@ export default async function handler(req, res) {
     prompt: usage.promptTokenCount,
     response: usage.candidatesTokenCount,
     total: usage.totalTokenCount
-  } 
+  },
+    authorized: true 
 
   });
   } catch (error) {

@@ -83,7 +83,7 @@ async function handleFile() {
 
 } catch (err) {
   console.error(err);
-  responseBox.textContent = "Upload and processing failed sadly.";
+  responseBox.textContent = "Upload and processing failed sadly. // Na reach na max rates for the day";
 }
 
   

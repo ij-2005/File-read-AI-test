@@ -23,7 +23,7 @@ async function handleFile() {
     formData.append("questionCount", questionCount);
     formData.append("difficulty", difficulty);
 
-    const res = await fetch("http://localhost:3000/api/upload", {
+    const res = await fetch("/api/upload", {
       method: "POST",
       body: formData
     });

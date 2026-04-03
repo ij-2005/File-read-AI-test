@@ -67,6 +67,8 @@ export default async function handler(req, res) {
     const aiText = (await result.response).text();
     const cleaned = aiText.replace(/```json/g, "").replace(/```/g, "").trim();
 
+    const usage = result.response.usageMetadata;
+
     let quizData;
     try {
       quizData = JSON.parse(cleaned);
@@ -75,7 +77,13 @@ export default async function handler(req, res) {
       return res.status(500).json({ reply: aiText });
     }
 
-    res.json({ reply: "paldo!", quiz: quizData.quiz });
+    res.json({ reply: "paldo!", quiz: quizData.quiz, tokens: {
+    prompt: usage.promptTokenCount,
+    response: usage.candidatesTokenCount,
+    total: usage.totalTokenCount
+  } 
+
+  });
   } catch (error) {
     console.error(error);
     res.status(500).json({ reply: "Error processing PDF or talking to AI" });

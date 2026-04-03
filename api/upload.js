@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     
 
     if (answer !== process.env.DOG_PASSWORD){
-      return res.status(403).json({ reply: "Wrong name!, sno ka ?!"});
+      return res.status(403).json({ reply: "Wrong name!, sno ka ?!", authorized: false});
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);

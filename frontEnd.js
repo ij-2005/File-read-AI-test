@@ -23,7 +23,7 @@ async function handleFile() {
   
   try {
 
-  responseBox.textContent = "reading pa si ei..";
+  responseBox.textContent = "Processing..";
   const formData = new FormData();
   formData.append("pdf", file);
   formData.append("questionCount", questionCount);
@@ -41,9 +41,8 @@ async function handleFile() {
 
   responseBox.textContent = data.reply;
 
-  
-
-  // Show quiz section
+  if(data.authorized){
+    // Show quiz section
   quizSection.style.display = "block";
 
   // Render multiple choice quiz if provided
@@ -80,10 +79,13 @@ async function handleFile() {
 
     console.log(`Gemini responded!: Tokens used → Prompt: ${data.tokens.prompt}, Response: ${data.tokens.response}, Total: ${data.tokens.total}`);
   }
+  }else{
+    console.log("wrong password. sorry.");
+  }
 
 } catch (err) {
   console.error(err);
-  responseBox.textContent = "Upload and processing failed sadly. // Na reach na max rates for the day";
+  responseBox.textContent = "Not connected to the server.";
 }
 
   

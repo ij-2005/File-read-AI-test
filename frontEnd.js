@@ -80,7 +80,7 @@ async function handleFile() {
     console.log(`Gemini responded!: Tokens used → Prompt: ${data.tokens.prompt}, Response: ${data.tokens.response}, Total: ${data.tokens.total}`);
   }
   }else{
-    console.log("wrong password. sorry.");
+    console.log("wrong password. sorry. -ivan");
   }
 
 } catch (err) {
